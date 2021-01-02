@@ -36,10 +36,17 @@ class App extends Component{//App 이라는 컴포넌트
     return(
       //title="WEB" sub="world wide handsome web!"></Subject>
     <div className="App">
-      <Subject 
+      {/*<Subject 
         title={this.state.subject.title}
         sub={this.state.subject.sub}>
-      </Subject>
+      </Subject>*/}
+      <header> {/*subject.js에 있던거 */}
+        <h1><a href="/" onClick={function(e) {
+          console.log(e);
+          e.preventDefault();
+        }}>{this.state.subject.title}</a>
+        </h1>{this.state.subject.sub}
+        </header>
       <TOC data={this.state.contents}></TOC>
       <Content title={_title} desc={_desc}></Content>
     </div>
