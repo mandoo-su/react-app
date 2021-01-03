@@ -1,0 +1,10 @@
+react props state라고 치면 정보 많이 나옴
+
+pops vs. state
+component 밖에서 props 변경 가능
+
+CRUD
+create
+read
+update
+delete

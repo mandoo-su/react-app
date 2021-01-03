@@ -2,9 +2,10 @@
 import './App.css';
 import React, { Component } from 'react';
 import TOC from "./components/TOC";
-import Content from "./components/Content";
+import ReadContent from "./components/ReadContent";
+import CreateContent from "./components/CreateContent";
 import Subject from "./components/Subject";
-
+import Control from "./components/Control";
 
 
 class App extends Component{//App 이라는 컴포넌트 
@@ -54,17 +55,7 @@ class App extends Component{//App 이라는 컴포넌트
           this.setState({mode:'welcome'});
         }.bind(this)}
         ></Subject>
-      {/*<header> subject.js에 있던거 
-        <h1><a href="/" onClick={function(e) {
-          console.log(e);
-          e.preventDefault();
-          //this.state.mode='welcome'; 이 경우 react가 인식을 X, setState라는 함수 필요
-          this.setState({
-            mode:'welcome'
-          });
-        }.bind(this)}>{this.state.subject.title}</a>
-        </h1>{this.state.subject.sub}
-        </header>*/}
+
       <TOC onChangePage={function(id){
         this.setState({
           mode:'read',
@@ -72,31 +63,18 @@ class App extends Component{//App 이라는 컴포넌트
         });
       }.bind(this)}
       data={this.state.contents}></TOC>
-      <Content title={_title} desc={_desc}></Content>
+
+      <Control onChangeMode={function(_mode){
+        this.setState({
+          mode:_mode
+        })
+      }.bind(this)}></Control>
+
+      <ReadContent title={_title} desc={_desc}></ReadContent>
     </div>
     );
   }
 }
 
-/*function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}*/
 
 export default App;
