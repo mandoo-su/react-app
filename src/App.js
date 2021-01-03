@@ -13,7 +13,7 @@ class App extends Component{//App 이라는 컴포넌트
     //component가 실행될때 constructor 가 가장 앞에 있으면 제일 먼저 실행되서 초기화 담당
     super(props);
     this.state={
-      mode:'read',
+      mode:'create',
       selected_content_id:2, //기본으로 2번 선택
       subject:{title:'WEB',sub:'World Woide Web! WWW'},
       welcome:{title:'Welcome', desc:'Hello, React!!'},
@@ -27,10 +27,12 @@ class App extends Component{//App 이라는 컴포넌트
   render(){
     console.log('App render');
     //props나 state가 바뀌면 화면이 다시 그려진다. render 다시 호출
-    var _title, _desc = null;
+    var _title, _desc, _article = null;
     if(this.state.mode==='welcome'){
       _title=this.state.welcome.title;
       _desc=this.state.welcome.desc;
+      _article=<ReadContent title={_title} desc={_desc}></ReadContent>
+
     }else if(this.state.mode==='read'){
       var i=0;
       while(i<this.state.contents.length){
@@ -42,7 +44,10 @@ class App extends Component{//App 이라는 컴포넌트
         }
         i=i+1;
       }
-     
+      _article=<ReadContent title={_title} desc={_desc}></ReadContent>
+
+    }else if(this.state.mode==='create'){
+      _article=<CreateContent></CreateContent>
     }
     console.log('render',this);
     return(
@@ -70,7 +75,8 @@ class App extends Component{//App 이라는 컴포넌트
         })
       }.bind(this)}></Control>
 
-      <ReadContent title={_title} desc={_desc}></ReadContent>
+      {/*<ReadContent title={_title} desc={_desc}></ReadContent>*/}
+      {_article}
     </div>
     );
   }
