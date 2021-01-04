@@ -45,9 +45,12 @@ class App extends Component{//App 이라는 컴포넌트
         i=i+1;
       }
       _article=<ReadContent title={_title} desc={_desc}></ReadContent>
-
+    
     }else if(this.state.mode==='create'){
-      _article=<CreateContent></CreateContent>
+      _article=<CreateContent onSubmit={function(_title,_desc)
+      {
+        // add content to this.state.content
+      }.bind(this)}></CreateContent>
     }
     console.log('render',this);
     return(

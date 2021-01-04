@@ -11,6 +11,11 @@ class CreateContent extends Component{
           method="post"
           onSubmit={function(e){
             e.preventDefault();
+            this.props.onSubmit(//e의 속성을 보고 설정
+              e.target.title.value,
+              e.target.desc.value
+            );
+            
             alert('submit!!!!');
           }.bind(this)}
           >
