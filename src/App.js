@@ -12,6 +12,7 @@ class App extends Component{//App 이라는 컴포넌트
   constructor(props){
     //component가 실행될때 constructor 가 가장 앞에 있으면 제일 먼저 실행되서 초기화 담당
     super(props);
+    this.max_content_id=3;
     this.state={
       mode:'create',
       selected_content_id:2, //기본으로 2번 선택
@@ -49,7 +50,16 @@ class App extends Component{//App 이라는 컴포넌트
     }else if(this.state.mode==='create'){
       _article=<CreateContent onSubmit={function(_title,_desc)
       {
+        console.log('Process onSubmit');
         // add content to this.state.content
+        this.max_content_id=this.max_content_id+1;
+        
+        this.state.contents.push(//이거만 쓰면 react가 알지 못함, 아래 setState 필요
+          {id:this.max_content_id, title:_title, desc:_desc}
+        );
+        this.setState({
+          contents:this.state.contents
+        });
       }.bind(this)}></CreateContent>
     }
     console.log('render',this);
