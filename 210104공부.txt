@@ -1,0 +1,6 @@
+concat
+
+var arr
+
+
+//push는 성능개선에서 까다로워 concat을 사용하는게 좋다.
