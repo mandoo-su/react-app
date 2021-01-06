@@ -51,18 +51,16 @@ class App extends Component{//App 이라는 컴포넌트
       _article=<CreateContent onSubmit={function(_title,_desc)
       {
         console.log('Process onSubmit');
-        // add content to this.state.content
-        /*this.max_content_id=this.max_content_id+1;
+        this.max_content_id=this.max_content_id+1;
         
-        this.state.contents.push(//이거만 쓰면 react가 알지 못함, 아래 setState 필요
-          {id:this.max_content_id, title:_title, desc:_desc}
-        );*/
-        var _contents= this.state.contents.concat(
-          {id:this.max_content_id, title:_title, desc:_desc}
-        )
+        var newContents = Array.from(this.state.contents);
+        newContents.push({
+          id:this.max_content_id,
+          title:_title,
+          desc:_desc
+        });
         this.setState({
-          //contents:this.state.contents
-          contents:_contents
+          contents:newContents
         });
       }.bind(this)}></CreateContent>
     }

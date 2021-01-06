@@ -8,5 +8,5 @@ shouldComponentUpdate(newProps, newState){
         return false;
         //false로 하면 자식 component는 부모 component의 state가 바뀌어도 render 되지 않기 때문에 create한거 바로 목록에 표시X
       }
-      return true;
+      return true; //기본적으로 true 반환
     }
