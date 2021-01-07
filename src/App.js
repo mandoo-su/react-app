@@ -6,7 +6,7 @@ import ReadContent from "./components/ReadContent";
 import CreateContent from "./components/CreateContent";
 import Subject from "./components/Subject";
 import Control from "./components/Control";
-
+import UpdateContent from "./components/UpdateContent";
 
 class App extends Component{//App 이라는 컴포넌트 
   constructor(props){
@@ -14,7 +14,7 @@ class App extends Component{//App 이라는 컴포넌트
     super(props);
     this.max_content_id=3;
     this.state={
-      mode:'create',
+      mode:'welcome',
       selected_content_id:2, //기본으로 2번 선택
       subject:{title:'WEB',sub:'World Woide Web! WWW'},
       welcome:{title:'Welcome', desc:'Hello, React!!'},
@@ -25,9 +25,18 @@ class App extends Component{//App 이라는 컴포넌트
       ]
     }
   }
-  render(){
-    console.log('App render');
-    //props나 state가 바뀌면 화면이 다시 그려진다. render 다시 호출
+  getReadContent(){
+    var i=0;
+      while(i<this.state.contents.length){
+        var data=this.state.contents[i];
+        if(data.id===this.state.selected_content_id){
+          return data; 
+        }
+        i=i+1;
+      }
+  }
+
+  getContent(){
     var _title, _desc, _article = null;
     if(this.state.mode==='welcome'){
       _title=this.state.welcome.title;
@@ -35,18 +44,8 @@ class App extends Component{//App 이라는 컴포넌트
       _article=<ReadContent title={_title} desc={_desc}></ReadContent>
 
     }else if(this.state.mode==='read'){
-      var i=0;
-      while(i<this.state.contents.length){
-        var data=this.state.contents[i];
-        if(data.id===this.state.selected_content_id){
-          _title=data.tile;
-          _desc=data.desc; 
-          break;
-        }
-        i=i+1;
-      }
-      _article=<ReadContent title={_title} desc={_desc}></ReadContent>
-    
+      var _content=this.getReadContent();
+      _article=<ReadContent title={_content.title} desc={_content.desc}></ReadContent>
     }else if(this.state.mode==='create'){
       _article=<CreateContent onSubmit={function(_title,_desc)
       {
@@ -63,8 +62,33 @@ class App extends Component{//App 이라는 컴포넌트
           contents:newContents
         });
       }.bind(this)}></CreateContent>
+    }else if(this.state.mode==='update'){
+      _content=this.getReadContent();
+      _article=<UpdateContent data={_content} onSubmit={
+        function(_id,_title,_desc){
+        console.log('Process onSubmit');
+        
+        var _contents = Array.from(this.state.contents);
+        var i =0;
+        while(i<_contents.length){
+          if(_contents[i].id ===_id){
+            _contents[i]={id:_id, title:_title, desc:_desc};
+            break;
+          }
+          i=i+1;
+        }
+        this.setState({
+          contents:_contents
+        });
+      }.bind(this)}></UpdateContent>
     }
-    console.log('render',this);
+    return _article;
+  }
+
+  render(){
+    console.log('App render');
+    //props나 state가 바뀌면 화면이 다시 그려진다. render 다시 호출
+    
     return(
       //title="WEB" sub="world wide handsome web!"></Subject>
     <div className="App">
@@ -85,17 +109,34 @@ class App extends Component{//App 이라는 컴포넌트
       data={this.state.contents}></TOC>
 
       <Control onChangeMode={function(_mode){
-        this.setState({
-          mode:_mode
-        })
-      }.bind(this)}></Control>
+        if(_mode==='delete'){
+          if(window.confirm('really?')){
+            var _contents = Array.from(this.state.contents);
+            var i=0;
+            while(i<_contents.length){
+              if(_contents[i].id === this.state.selected_content_id){
+                _contents.splice(i,1);
+                break;
+              }
+              i=i+1;
+            }
+            this.setState({
+              mode:'welcome',
+              contents:_contents
+            });
+            alert('deleted!');
+          }
 
-      {/*<ReadContent title={_title} desc={_desc}></ReadContent>*/}
-      {_article}
+        }else{ 
+          this.setState({
+          mode:_mode
+        })}
+       
+      }.bind(this)}></Control>
+      {this.getContent()}
     </div>
     );
   }
 }
-
 
 export default App;
